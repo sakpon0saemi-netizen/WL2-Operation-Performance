@@ -26,19 +26,16 @@
 <style>
   html,body{margin:0;padding:0;height:100%;background:#4338ca;overflow:hidden;
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
-  #frame{position:fixed;top:0;left:0;width:100%;height:100%;border:0;display:block}
   #splash{position:fixed;inset:0;z-index:9;display:flex;flex-direction:column;
     align-items:center;justify-content:center;gap:20px;color:#fff;
-    background:linear-gradient(135deg,#4338ca 0%,#6d28d9 45%,#0284c7 100%);
-    transition:opacity .5s ease}
-  #splash.gone{opacity:0;pointer-events:none}
+    background:linear-gradient(135deg,#4338ca 0%,#6d28d9 45%,#0284c7 100%)}
   #splash .mark{font-size:56px;font-weight:800;letter-spacing:-.04em}
   #splash .sub{font-size:13px;opacity:.8}
   .ring{width:30px;height:30px;border:3px solid rgba(255,255,255,.28);
     border-top-color:#a5f3fc;border-radius:50%;animation:spin 1s linear infinite}
   @keyframes spin{to{transform:rotate(360deg)}}
   #fallback{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:10;
-    display:none;background:#fff;color:#1e1b4b;font-size:13px;font-weight:700;
+    background:#fff;color:#1e1b4b;font-size:13px;font-weight:700;
     padding:11px 20px;border-radius:999px;text-decoration:none;
     box-shadow:0 12px 30px -12px rgba(0,0,0,.6)}
 </style>
@@ -49,59 +46,21 @@
   <div class="mark">WL2</div>
   <div class="ring"></div>
   <div class="sub">Loading monitoring system…</div>
+  <a id="fallback" href="#">เปิดเลยถ้าไม่ไปเอง</a>
 </div>
-
-<iframe id="frame" title="WL2 Overburden Monitoring System"
-        allow="clipboard-write; fullscreen"
-        referrerpolicy="no-referrer-when-downgrade"></iframe>
-
-<a id="fallback" href="#" target="_blank" rel="noopener">เปิดในเบราว์เซอร์แทน</a>
 
 <script>
   /* ====== วางลิงก์ /exec ของคุณตรงนี้ ====== */
   var APP_URL = "https://script.google.com/macros/s/AKfycbxEcPwF8C0Wx2HeJWSfI6jGvu0SgUZAJk5JKaAk42iao3ub9mqO_DA5rH4IwSAf870z/exec";
   /* ======================================== */
 
-  var frame = document.getElementById('frame'),
-      splash = document.getElementById('splash'),
-      fallback = document.getElementById('fallback');
-
-  fallback.href = APP_URL;
-  frame.src = APP_URL;
-
-  frame.addEventListener('load', function () {
-    setTimeout(function () { splash.classList.add('gone'); }, 400);
-  });
-  setTimeout(function () {
-    if (!splash.classList.contains('gone')) {
-      splash.classList.add('gone');
-      fallback.style.display = 'block';
-    }
-  }, 12000);
-
-  /* ==================================================================
-     สะพานเก็บ token
-     Safari ไม่ยอมให้หน้าที่อยู่ใน iframe เก็บข้อมูลลงเครื่อง
-     หน้านี้เป็นหน้านอกสุดจึงเก็บแทนให้ แล้วส่งกลับเข้าไปเมื่อถูกขอ
-     โปรโตคอลนี้ (__wl2 / คีย์ wl2_token) ต้องตรงกับ Index.html เป๊ะ
-     ================================================================== */
-  var KEY = 'wl2_token';
-  window.addEventListener('message', function (e) {
-    var d = e.data;
-    if (!d || d.__wl2 !== 1 || !d.op) return;
-    var src = e.source;
-    function reply(payload) {
-      payload.__wl2 = 1; payload.id = d.id;
-      try { src.postMessage(payload, '*'); } catch (err) {}
-    }
-    try {
-      if (d.op === 'get')         reply({ value: localStorage.getItem(KEY) || '' });
-      else if (d.op === 'set')    { localStorage.setItem(KEY, d.value || ''); reply({ ok:true }); }
-      else if (d.op === 'clear')  { localStorage.removeItem(KEY); reply({ ok:true }); }
-      else if (d.op === 'reload') { reply({ ok:true }); location.reload(); }
-      else reply({ ok:false });
-    } catch (err) { reply({ error:String(err) }); }
-  }, false);
+  /* หมายเหตุ: ลิงก์ /exec ของ Apps Script จะ redirect ไปยังโดเมน
+     script.googleusercontent.com ซึ่ง Google ไม่อนุญาตให้หน้ากลางทางนี้
+     ถูกฝังใน <iframe> จากเว็บอื่น (บล็อกเงียบๆ กลายเป็นพื้นที่ว่างเปล่า)
+     จึงพาไปเปิดตรงๆ (เปลี่ยนทั้งหน้า) แทนการฝัง iframe — ยังได้สแปลช
+     แบรนด์ WL2 โชว์สั้นๆ และไอคอนสำหรับ Add to Home Screen เหมือนเดิม */
+  document.getElementById('fallback').href = APP_URL;
+  setTimeout(function () { location.replace(APP_URL); }, 900);
 </script>
 </body>
 </html>
