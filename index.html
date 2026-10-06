@@ -91,11 +91,11 @@
         referrerpolicy="no-referrer-when-downgrade"></iframe>
 
 <div id="fallback">
-  <button id="retry" type="button">ลองใหม่</button>
-  <a id="openTab" href="#" target="_blank" rel="noopener">เปิดในเบราว์เซอร์แทน</a>
+  <button id="retry" type="button">Retry</button>
+  <a id="openTab" href="#" target="_blank" rel="noopener">Open in browser instead</a>
 </div>
 
-<noscript>ต้องเปิด JavaScript เพื่อใช้งานระบบ WL2</noscript>
+<noscript>JavaScript must be enabled to use the WL2 system</noscript>
 
 <script>
   /* ====== วางลิงก์ /exec ของคุณตรงนี้ ====== */
@@ -121,7 +121,7 @@
     /* ใส่ตัวกันแคช เฉพาะตอนกด "ลองใหม่" เพื่อให้ได้หน้าล่าสุดหลัง Deploy */
     frame.src = start.n ? APP_URL + (APP_URL.indexOf('?') < 0 ? '?' : '&') + 'r=' + Date.now() : APP_URL;
     start.n = (start.n || 0) + 1;
-    timers.push(setTimeout(function(){ if(!loaded) msg.textContent = 'ใช้เวลานานกว่าปกติ — Apps Script กำลังเริ่มทำงาน…'; }, 6000));
+    timers.push(setTimeout(function(){ if(!loaded) msg.textContent = 'Taking longer than usual — Apps Script is starting up…'; }, 6000));
     timers.push(setTimeout(function(){
       if(loaded) return;
       splash.classList.add('gone');          /* ให้เห็นหน้าที่โหลดค้างอยู่ ดีกว่าหน้าม่วงตลอด */
@@ -137,7 +137,7 @@
     setTimeout(function(){ splash.classList.add('gone'); }, 350);
   });
   document.getElementById('retry').addEventListener('click', start);
-  window.addEventListener('offline', function(){ msg.textContent = 'ไม่มีสัญญาณอินเทอร์เน็ต'; });
+  window.addEventListener('offline', function(){ msg.textContent = 'No internet connection'; });
   window.addEventListener('online',  function(){ if(!loaded) start(); });
   start();
 
