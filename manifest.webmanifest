@@ -1,6 +1,6 @@
 {
-  "name": "WL2 Overburden Monitoring System",
-  "short_name": "WL2",
+  "name": "WL2-Operation-Performance",
+  "short_name": "WL2_2026",
   "description": "Production, reliability, loss & gained and CM follow-up for the WL2 overburden conveyor system",
   "start_url": "./Wrapper_index.html",
   "scope": "./",
