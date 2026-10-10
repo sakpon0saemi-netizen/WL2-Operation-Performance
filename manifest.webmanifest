@@ -1,15 +1,27 @@
+
 {
+  "id": "./",
   "name": "WL2 Operation Performance",
   "short_name": "WL2",
-  "description": "Operation performance metrics for the WL2 overburden conveyor system",
-  "start_url": "./Wrapper_index.html",
+  "description": "Production, reliability, loss and gained, and CM follow-up for the WL2 overburden conveyor system.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "any",
   "background_color": "#312e81",
   "theme_color": "#312e81",
   "icons": [
-    { "src": "wl2-icon.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "wl2-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+    {
+      "src": "./wl2-icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./wl2-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
   ]
 }
